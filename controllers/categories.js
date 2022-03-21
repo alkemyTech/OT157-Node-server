@@ -1,10 +1,18 @@
 const { Categories } = require('../models/index');
+const express = require('express');
+
 
 
 module.exports = {
-    async getCategories(req, res) {
+    async getCategories() {
         const categories = await Categories.findAll();
-        if (!categories) return res.status(404).json({ message: 'not found' });
-        return res.status(200).json({ categories });
+        if (!categories) return false;
+        return categories; 
     }
 }
+
+
+
+
+
+
