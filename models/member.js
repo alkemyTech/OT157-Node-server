@@ -1,6 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
-module.exports = (Sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   class Member extends Model {
     /**
      * Helper method for defining associations.
@@ -15,42 +15,42 @@ module.exports = (Sequelize, DataTypes) => {
     id: {
       allowNull: false,
       autoIncrement: true,
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
     },
     name: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     facebookUrl: {
       allowNull: true,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     instagramUrl: {
       allowNull: true,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     linkedinUrl: {
       allowNull: true,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     image: {
       allowNull: false,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     description: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     deletedAt: {
-      type: Sequelize.DATE
+      type: DataTypes.DATE
     },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: DataTypes.DATE
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE
+      type: DataTypes.DATE
     }
   }, {
     sequelize,
