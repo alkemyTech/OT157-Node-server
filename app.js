@@ -10,6 +10,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const categoriesRouter = require('./routes/categories');
 
+const testimonialsRouter=require("./routes/testimonials")
 
 const app = express();
 app.use(cors())
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categories', categoriesRouter);
+app.use("/testimonials",testimonialsRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -42,6 +44,12 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+const port = process.env.PORT || 3001
+
+app.listen(port, () => {
+  console.log(`Server Running at ${port}`)
 });
 
 module.exports = app;
