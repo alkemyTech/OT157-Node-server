@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   Role.init({
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,   
+      primaryKey: true,//tuve que agregar esta propiedad para hacer correr el proyecto
       allowNull: false,
       autoIncrement: true
     },
@@ -27,10 +28,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     createdAt: {
-      type: Sequelize.DATE,
+    //tuve que cambiar el valor de la propiedad type para que el proyecto corra  
+      type: DataTypes.DATE,
     },
     updatedAt: {
-      type: Sequelize.DATE,
+    //tuve que cambiar el valor de la propiedad type para que el proyecto corra
+      type: DataTypes.DATE,
     } 
   }, {
     sequelize,
