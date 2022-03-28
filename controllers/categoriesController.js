@@ -1,7 +1,7 @@
 const { listAll, create } = require('../repositories/categoriesRepository');
 
 
-const getCategories = async (req, res) => {
+const getCategoriesList = async (req, res) => {
     const categories = await listAll();
     if (!categories) return res.status(404).json({ message: 'Categories not found' });
     return res.status(200).json(categories);
@@ -13,7 +13,7 @@ const createCategory = async (req, res) => {
     return res.status(200).json(category);
 }
 
-module.exports = { getCategories, createCategory };
+module.exports = { getCategoriesList, createCategory };
 
 
 
