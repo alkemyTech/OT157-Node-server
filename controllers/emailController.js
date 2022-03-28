@@ -21,8 +21,24 @@ function sendWelcomeEmail (to) {
     sgMail.send(msg)
 };
 
+function sendDefaultEmail(to, subject, text) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+    const msg = {
+        to: to,
+        from: process.env.SENDGRID_SENDER,
+        subject: subject,
+        text: text
+    }
+    sgMail.send(msg)
+}
+
 // sendWelcomeEmail("franmassello7670@gmail.com") Linea para testear la funcion, 
+// sendDefaultEmail("franmassello7670@gmail.com", "Test", "Test") 
+
+
+
 
 module.exports = {
-    sendWelcomeEmail
+    sendWelcomeEmail,
+    sendDefaultEmail
 }
