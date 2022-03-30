@@ -14,11 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Role.init({
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true
-    },
+    //Borrado ID
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,11 +22,18 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
     },
+    //Modificado Type de createdAt y deletedAt
     createdAt: {
-      type: Sequelize.DATE,
+      type: {
+        type: DataTypes.DATE,
+        allowNull: true
+      }
     },
     updatedAt: {
-      type: Sequelize.DATE,
+      type: {
+        type: DataTypes.DATE,
+        allowNull: true
+      }
     } 
   }, {
     sequelize,
