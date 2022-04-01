@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var { User , role } =require('../models/index');
+const usersController = require('../controllers/usersController')
+const loginValidator = require('../validators/loginValidator')
 
 /* GET users listing. */
 router.get('/', async(req, res, next) => {
@@ -95,6 +97,11 @@ router.delete("/:id", async function (req, res, next) {
   }
 });
 
+/*LOGIN user*/
+
+router.post('/auth/login', loginValidator, usersController.login)
 
 
 module.exports = router;
+
+
