@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Slide.belongsTo(Organization, {
+      Slide.belongsTo(models.Organization, {
         foreignKey: {
           name: "organizationId",
         },
