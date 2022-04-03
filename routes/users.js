@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var { User , role } =require('../models/index');
 const usersController = require('../controllers/usersController')
-const loginValidator = require('../validators/loginValidator')
+const loginValidator = require('../validators/loginValidator');
+const bcrypt = require('bcrypt');
 
 /* GET users listing. */
 router.get('/', async(req, res, next) => {
@@ -51,7 +52,7 @@ router.post('/user', async (req, res, next) =>{
                         firstName: firstName,
                         lastName: lastName,
                         email: email, //aca creo un nuevo user con las propiedades que necesito
-                        password: password
+                        password: bcrypt.hashSync(password, 10),
                     });
   //         const rol =  role.findOne({
   //             where: {
@@ -100,6 +101,9 @@ router.delete("/:id", async function (req, res, next) {
 /*LOGIN user*/
 
 router.post('/auth/login', loginValidator, usersController.login)
+
+router.get('/auth/me', usersController.me);
+router.patch('/:id', usersController.update);
 
 
 module.exports = router;
