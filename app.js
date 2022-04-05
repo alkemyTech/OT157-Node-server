@@ -22,7 +22,11 @@ app.set("view engine", "ejs");
 
 // express-session
 const session=require("express-session")
-app.use(session({secret:"It is a secret!"}))
+app.use(session({
+  secret:"It is a secret!",
+  resave: true,
+  saveUninitialized: true
+}))
 
 app.use(logger("dev"));
 app.use(express.json());
