@@ -24,6 +24,13 @@ const testimonialsControler={
             const testimonialUpdate= await db.testimonial.update(data,{where:{id:id}})
             return testimonialUpdate
         } catch (err) {console.log(err)}
+    },
+    destroy:async(id)=>{
+        try {
+            const countRowDestroy= await db.testimonial.destroy({where:{id:id}})
+            return countRowDestroy
+        } catch (err) {console.log(err)}
+
     }
 
 }

@@ -108,21 +108,17 @@ const testimonialsControler={
         } catch(error) {
             console.log(error)
         }
-        
-        /* const validation=validationResult(req)
-        const errors=validation.mapped()
-        if (!validation.isEmpty()) {
+    },
+    destroy:async(req,res)=>{
+        try{
+            const countRowDestroy=await testimonialsService.destroy(req.params.id)
             let response={
-                meta:{
-                    status:400,
-                    statusMessage:"Error del cliente"
-                },
-                Error:[]
+                status:200,
+                countRowsDelete:countRowDestroy,
+                url:"/testimonials/id"
             }
-            if (errors.name) {response.Error.push(errors.name.msg) }
-            if (errors.content) {response.Error.push(errors.content.msg)}
-            res.status(400).json(response)
-        } */
+            res.status(200).json(response)
+        } catch(err) {console.log(err);}
     }
 }
 module.exports=testimonialsControler
