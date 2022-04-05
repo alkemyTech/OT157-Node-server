@@ -92,6 +92,10 @@ router.get("/:id", getUserById);
 
 /*LOGIN user*/
 
-//router.post("/auth/login", loginValidator, usersController.login);
+/* router.post('/auth/login', loginValidator, usersController.login)
+
+router.get('/auth/me', usersController.me);
+router.patch('/:id', usersController.update);
+ */
 
 module.exports = router;

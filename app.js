@@ -12,7 +12,7 @@ const categoriesRouter = require("./routes/categories");
 const slideRouter = require("./routes/slide");
 const register = require("./routes/register");
 const login = require("./routes/login");
-
+const activitiesRouter = require("./routes/activities");
 const testimonialsRouter = require("./routes/testimonials");
 
 const app = express();
@@ -35,6 +35,7 @@ app.use("/testimonials", testimonialsRouter);
 app.use("/slides", slideRouter);
 app.use("/register", register);
 app.use("/auth/login", login);
+app.use("/activities", activitiesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
