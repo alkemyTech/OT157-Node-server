@@ -1,77 +1,66 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 var { User , role } =require('../models/index');
 const usersController = require('../controllers/usersController')
-const loginValidator = require('../validators/loginValidator')
+const loginValidator = require('../validators/loginValidator');
+const bcrypt = require('bcrypt');
+const emailsController = require("../controllers/emailController");
 
 /* GET users listing. */
-router.get('/', async(req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    const userBD = await User.findAll({
-  });
-  return res.json(userBD);
-    
+    const userBD = await User.findAll({});
+    return res.json(userBD);
   } catch (error) {
-    next(error)
-    
+    next(error);
   }
-  res.send('respond with a resource');
+  res.send("respond with a resource");
 });
 
 /*GET user by Id */
 
-router.get('/:id', async(req, res, next)=>{
+router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    let user = await User.findByPk(id, {
-    });
-    if(!user){
-      return res.send('User not found')
-    }else{
+    let user = await User.findByPk(id, {});
+    if (!user) {
+      return res.send("User not found");
+    } else {
       return res.send(user);
     }
-
-    
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
-
-
+});
 
 /*POST a newUser. */
-router.post('/user', async (req, res, next) =>{
-  const { firstName,lastName, email, password } = req.body;
-
+router.post("/user", async (req, res, next) => {
+  const { firstName, lastName, email, password } = req.body;
   // res.send('Prueba')
-        if (email && password) {
-    
-                  try {
-                    const newUser = await User.create({
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: email, //aca creo un nuevo user con las propiedades que necesito
-                        password: password
-                    });
-  //         const rol =  role.findOne({
-  //             where: {
-  //                 //aca busco en la base de datos donde uno tenga la propiedad client
-  //                 name: "client",
-  //             },
-  //         });
-  //          newUser.setRole(rol);
+  if (email && password) {
+    try {
+      const newUser = await User.create({
+        firstName: firstName,
+        lastName: lastName,
+        email: email, //aca creo un nuevo user con las propiedades que necesito
+        password: password,
+      });
+      //         const rol =  role.findOne({
+      //             where: {
+      //                 //aca busco en la base de datos donde uno tenga la propiedad client
+      //                 name: "client",
+      //             },
+      //         });
+      //          newUser.setRole(rol);
+      emailsController.sendWelcomeEmail(email); // esta funcion envia el welcome email
+      return res.send(await User.findByPk(newUser.id, {})); //aca seteo a un nuevo user con el rol "cliente"
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    res.status(404).send({ msg: "Faltan los valores basicos" });
+  }
 
-          return res.send(
-                await User.findByPk(newUser.id, {
-                  })
-              ); //aca seteo a un nuevo user con el rol "cliente"
-
-                        } catch (error) {
-                            next(error);
-                        }
-                    } else {
-                        res.status(404).send({ msg: "Faltan los valores basicos" });
-                    }
 });
 
 /*DELETE user by Id*/
@@ -79,21 +68,23 @@ router.post('/user', async (req, res, next) =>{
 router.delete("/:id", async function (req, res, next) {
   const { id } = req.params;
   try {
-      let existsInDB = await User.findOne({
-          where: {
-              id,
-          },
+    let existsInDB = await User.findOne({
+      where: {
+        id,
+      },
+    });
+    if (existsInDB) {
+      User.destroy({
+        where: {
+          id,
+        },
       });
-      if (existsInDB) {
-          User.destroy({
-              where: {
-                  id,
-              },
-          });
-          return res.status(200).send("User has been deleted from database successfully");
-      } else throw new Error("ERROR 500: User with given name does not exist in database");
+      return res
+        .status(200)
+        .send("User has been deleted from database successfully");
+    } else throw new Error("ERROR 500: User with given name does not exist in database");
   } catch (err) {
-      next(err);
+    next(err);
   }
 });
 
@@ -101,7 +92,8 @@ router.delete("/:id", async function (req, res, next) {
 
 router.post('/auth/login', loginValidator, usersController.login)
 
+router.get('/auth/me', usersController.me);
+router.patch('/:id', usersController.update);
+
 
 module.exports = router;
-
-
