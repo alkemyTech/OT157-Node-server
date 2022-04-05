@@ -1,8 +1,9 @@
 var express = require("express");
 var router = express.Router();
-var { User, role } = require("../models/index");
-const usersController = require("../controllers/usersController");
-const loginValidator = require("../validators/loginValidator");
+var { User , role } =require('../models/index');
+const usersController = require('../controllers/usersController')
+const loginValidator = require('../validators/loginValidator');
+const bcrypt = require('bcrypt');
 const emailsController = require("../controllers/emailController");
 
 /* GET users listing. */
@@ -35,7 +36,6 @@ router.get("/:id", async (req, res, next) => {
 /*POST a newUser. */
 router.post("/user", async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
-
   // res.send('Prueba')
   if (email && password) {
     try {
@@ -60,6 +60,7 @@ router.post("/user", async (req, res, next) => {
   } else {
     res.status(404).send({ msg: "Faltan los valores basicos" });
   }
+
 });
 
 /*DELETE user by Id*/
@@ -89,6 +90,10 @@ router.delete("/:id", async function (req, res, next) {
 
 /*LOGIN user*/
 
-router.post("/auth/login", loginValidator, usersController.login);
+router.post('/auth/login', loginValidator, usersController.login)
+
+router.get('/auth/me', usersController.me);
+router.patch('/:id', usersController.update);
+
 
 module.exports = router;
