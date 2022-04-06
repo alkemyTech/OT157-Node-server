@@ -7,13 +7,10 @@ const {esAdminRol} = require("../middlewares/validateRole");
 /* GET users listing. */
 /* router.get('/', async(req, res, next) => {
   try {
-    const userBD = await User.findAll({
-  });
-  return res.json(userBD);
-    
+    const userBD = await User.findAll({});
+    return res.json(userBD);
   } catch (error) {
-    next(error)
-    
+    next(error);
   }
   res.send('respond with a resource');
 }); */
@@ -38,7 +35,6 @@ router.get("/:id", getUserById);
 /*POST a newUser. */
 /* router.post("/user", async (req, res, next) => {
   const {firstName, lastName, email, password} = req.body;
-
   // res.send('Prueba')
   if (email && password) {
     try {
@@ -55,7 +51,6 @@ router.get("/:id", getUserById);
       //             },
       //         });
       //          newUser.setRole(rol);
-
       return res.send(await User.findByPk(newUser.id, {})); //aca seteo a un nuevo user con el rol "cliente"
     } catch (error) {
       next(error);
@@ -93,7 +88,6 @@ router.get("/:id", getUserById);
 /*LOGIN user*/
 
 /* router.post('/auth/login', loginValidator, usersController.login)
-
 router.get('/auth/me', usersController.me);
 router.patch('/:id', usersController.update);
  */
