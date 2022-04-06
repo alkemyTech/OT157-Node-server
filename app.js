@@ -10,10 +10,9 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const categoriesRouter = require("./routes/categories");
 const slideRouter = require("./routes/slide");
-const activitiesRouter = require("./routes/activities");
 const register = require("./routes/register");
 const login = require("./routes/login");
-
+const activitiesRouter = require("./routes/activities");
 const testimonialsRouter = require("./routes/testimonials");
 
 const app = express();
@@ -44,10 +43,9 @@ app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);
 app.use("/testimonials", testimonialsRouter);
 app.use("/slides", slideRouter);
-app.use("/activities", activitiesRouter);
-
 app.use("/register", register);
 app.use("/auth/login", login);
+app.use("/activities", activitiesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

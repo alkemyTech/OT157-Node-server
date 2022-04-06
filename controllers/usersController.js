@@ -17,6 +17,8 @@ const getUserById = async (req, res) => {
   res.status(400).json({user});
 };
 
+<<<<<<< HEAD
+=======
 const login = async (req, res) => {
   const {email, password} = req.body;
 
@@ -55,6 +57,7 @@ const login = async (req, res) => {
     });
   }
 };
+>>>>>>> develop
 module.exports = {getAllUser, getUserById};
 
 /* 
