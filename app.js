@@ -14,7 +14,12 @@ const register = require("./routes/register");
 const login = require("./routes/login");
 const activitiesRouter = require("./routes/activities");
 const testimonialsRouter = require("./routes/testimonials");
+
 const organizationRouter= require('./routes/organization.js');
+
+const newsRouter = require('./routes/news');
+
+
 const app = express();
 app.use(cors());
 
@@ -41,10 +46,15 @@ app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);
 app.use("/testimonials", testimonialsRouter);
 app.use("/slides", slideRouter);
+
 app.use("/register", register);
 app.use("/auth/login", login);
 app.use("/activities", activitiesRouter);
 app.use('/organization',organizationRouter);
+
+
+app.use('/news', newsRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -64,8 +74,8 @@ app.use(function (err, req, res, next) {
 
 const port = process.env.PORT || 3001;
 
-app.listen(port, () => {
-  console.log(`Server Running at ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server Running at ${port}`)
+// });
 
 module.exports = app;

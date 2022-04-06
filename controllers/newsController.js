@@ -1,22 +1,15 @@
 const db = require("../models");
+const { getAllNews, getNewsById, postNews } = require("../services/newsService");
 
 const newsController = {
-  
-  newsList: async (req, res) => {
-    await db.News.findAll()
-
-      .then((data) => {
-        if (data) {
-          res.status(200).json(data);
-        } else {
-          res.status(400).json({ msg: "Sorry, there are no news to show." });
-        }
-      })
-
-      .catch((errors) => {
-        res.status(400).json({ msg: "Error getting the news", errors }),
-          console.log(errors);
-      });
+  getNewsList: async (req, res) => {
+    await getAllNews(req,res)
+  },
+  getSingle: async (req, res) => {
+    await getNewsById(req, res)
+  },
+  createNews: async (req, res) => {
+    await postNews(req, res)
   },
 };
 
