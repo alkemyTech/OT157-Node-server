@@ -24,6 +24,15 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER
       },
+      contactoId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Contactos',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
       email: {
         allowNull: false,
         type: Sequelize.STRING

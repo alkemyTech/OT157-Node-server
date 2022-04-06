@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     class Organization extends Model {
     
       static associate(models) {
+        Organization.belongsTo(models.Contacto, {as: 'contacto',foreignKey:"contactoId"});
       }
     };
     Organization.init({
@@ -11,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     address: DataTypes.STRING,
     phone: DataTypes.INTEGER,
+    contactoId:DataTypes.INTEGER,
     email: DataTypes.STRING,
     welcomeText: DataTypes.TEXT,
     aboutUsText: DataTypes.TEXT,
