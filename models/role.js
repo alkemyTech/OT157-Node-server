@@ -14,12 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Role.init({
+
     id: {
       type: DataTypes.INTEGER,   
       primaryKey: true,//tuve que agregar esta propiedad para hacer correr el proyecto
       allowNull: false,
       autoIncrement: true
     },
+
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -27,13 +29,16 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
     },
+    //Modificado Type de createdAt y deletedAt
     createdAt: {
+
     //tuve que cambiar el valor de la propiedad type para que el proyecto corra  
       type: DataTypes.DATE,
     },
     updatedAt: {
     //tuve que cambiar el valor de la propiedad type para que el proyecto corra
       type: DataTypes.DATE,
+
     } 
   }, {
     sequelize,

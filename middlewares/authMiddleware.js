@@ -8,7 +8,11 @@ async function authMiddleware(req, res, next) {
             const token = req.headers.authorization.split(' ')[1];
             const decodeToken = jwt.verify(token, process.env.JWT_SECRET);
 
-            req.userLogged = await User.findByPk(decodeToken.id).select("-password");
+            const user = await User.findByPk(decodeToken.user.id);
+            
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
             return next();
 
         } catch (error) {
