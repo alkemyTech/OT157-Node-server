@@ -1,9 +1,11 @@
 const express=require("express")
 const router=express.Router()
+const {validarJWT}=require("../middlewares/validarJWT")
+const {esAdminRol}=require("../middlewares/validateRole")
 const testimonialsControler=require("../controllers/testimonialsController")
 const validateTestimonial=require("../middlewares/validateTestimonial")
 router.get("/",testimonialsControler.list)
-router.post("/",validateTestimonial,testimonialsControler.create)
+router.post("/",validarJWT,esAdminRol,validateTestimonial,testimonialsControler.create)
 router.put("/:id",validateTestimonial,testimonialsControler.update)
 router.delete("/:id",testimonialsControler.destroy)
 
