@@ -51,6 +51,9 @@ router.get("/:id", getUserById);
       //             },
       //         });
       //          newUser.setRole(rol);
+      emailsController.sendWelcomeEmail(email); // esta funcion envia el welcome email
+
+
       return res.send(await User.findByPk(newUser.id, {})); //aca seteo a un nuevo user con el rol "cliente"
     } catch (error) {
       next(error);
@@ -87,9 +90,22 @@ router.get("/:id", getUserById);
 
 /*LOGIN user*/
 
+
+/* router.post('/auth/login', loginValidator, usersController.login)
+
+router.get('/auth/me', usersController.me);
+router.patch('/:id', usersController.update);
+ */
+
+//router.post("/auth/login", loginValidator, usersController.login);
+
+
+module.exports = router;
+
 /* router.post('/auth/login', loginValidator, usersController.login)
 router.get('/auth/me', usersController.me);
 router.patch('/:id', usersController.update);
  */
 
-module.exports = router;
+
+

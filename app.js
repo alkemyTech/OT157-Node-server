@@ -28,12 +28,14 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // express-session
-const session=require("express-session")
-app.use(session({
-  secret:"It is a secret!",
-  resave: true,
-  saveUninitialized: true
-}))
+const session = require("express-session");
+app.use(
+  session({
+    secret: "It is a secret!",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -46,6 +48,7 @@ app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);
 app.use("/testimonials", testimonialsRouter);
 app.use("/slides", slideRouter);
+
 
 app.use("/register", register);
 app.use("/auth/login", login);
