@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const {getAllUser, getUserById} = require("../controllers/usersController");
+const {getAllUser, getUserById, update} = require("../controllers/usersController");
 const {validarJWT} = require("../middlewares/validarJWT");
 const {esAdminRol} = require("../middlewares/validateRole");
-
+const authMiddleware = require("../middlewares/authMiddleware");
 /* GET users listing. */
 /* router.get('/', async(req, res, next) => {
   try {
@@ -16,6 +16,7 @@ const {esAdminRol} = require("../middlewares/validateRole");
 }); */
 router.get("/", [validarJWT, esAdminRol], getAllUser);
 router.get("/:id", getUserById);
+router.patch('/:id', authMiddleware, update);
 /*GET user by Id */
 
 /* router.get("/:id", async (req, res, next) => {
@@ -93,8 +94,8 @@ router.get("/:id", getUserById);
 
 /* router.post('/auth/login', loginValidator, usersController.login)
 
-router.get('/auth/me', usersController.me);
-router.patch('/:id', usersController.update);
+
+
  */
 
 //router.post("/auth/login", loginValidator, usersController.login);
