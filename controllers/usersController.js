@@ -1,3 +1,25 @@
+const db = require("../models");
+const bcryptjs = require("bcryptjs");
+const {generarJWT} = require("../helpers/generarJWT");
+
+const getAllUser = async (req, res) => {
+  const users = await db.User.findAll({
+    attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
+  });
+  res.status(400).json({users});
+};
+
+const getUserById = async (req, res) => {
+  const {id} = req.params;
+  const user = await db.User.findByPk(id, {
+    attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
+  });
+  res.status(400).json({user});
+};
+
+module.exports = {getAllUser, getUserById};
+
+/* 
 const { validationResult } = require("express-validator");
 const userService = require("../services/userService");
 const jwt = require('jsonwebtoken')
@@ -70,4 +92,4 @@ const usersController = {
   }
 };
 
-module.exports = usersController;
+module.exports = usersController; */
