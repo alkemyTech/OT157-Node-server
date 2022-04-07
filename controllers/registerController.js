@@ -1,6 +1,7 @@
 const db = require("../models");
 const bcryptjs = require("bcryptjs");
 const {generarJWT} = require("../helpers/generarJWT");
+const emailsController = require("../services/emails")
 
 const postUser = async (req, res) => {
   try {
@@ -28,6 +29,7 @@ const postUser = async (req, res) => {
       user,
       token,
     });
+    emailsController.sendWelcomeEmail(email) // funcion que envia el email de bienvenida
   } catch (error) {
     console.log(error);
     res.status(500).json({

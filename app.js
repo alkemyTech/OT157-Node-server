@@ -14,6 +14,7 @@ const register = require("./routes/register");
 const login = require("./routes/login");
 const activitiesRouter = require("./routes/activities");
 const testimonialsRouter = require("./routes/testimonials");
+const authRouter = require("./routes/authRouter");
 
 const organizationRouter= require('./routes/organization.js');
 
@@ -52,6 +53,7 @@ app.use("/slides", slideRouter);
 
 app.use("/register", register);
 app.use("/auth/login", login);
+app.use('/auth', authRouter);
 app.use("/activities", activitiesRouter);
 app.use('/organization',organizationRouter);
 
@@ -77,8 +79,5 @@ app.use(function (err, req, res, next) {
 
 const port = process.env.PORT || 3001;
 
-app.listen(port, () => {
-   console.log(`Server Running at ${port}`)
- });
 
 module.exports = app;
