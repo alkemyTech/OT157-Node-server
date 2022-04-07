@@ -1,27 +1,31 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const db = require('../models/index');
 
 async function authMiddleware(req, res, next) {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
 
         try {
             const token = req.headers.authorization.split(' ')[1];
-            const decodeToken = jwt.verify(token, process.env.JWT_SECRET);
+            const decodeToken = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
 
-            const user = await User.findByPk(decodeToken.user.id);
+            const user = await db.User.findByPk(decodeToken.uid);
             
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
+            req.user = user;
             return next();
 
         } catch (error) {
-            const e = new Error('Invalid token');
-            return res.status(403).json({message: e.message});
+            res.status(500).json({
+                success: false,
+                message: error.message
+            });
         }
         
     }
-    res.status(403).json({message: 'You are not authorized to access this page'});
+    res.status(403).json({message: 'You must to be logged in to access this page.'});
+    next();
 }
 
 module.exports = authMiddleware;
