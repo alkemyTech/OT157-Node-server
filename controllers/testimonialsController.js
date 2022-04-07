@@ -13,6 +13,7 @@ const testimonialsControler={
                 offset=(page-1)*10
             }
             const {count,rows}=await testimonialsService.list(offset)
+            const lastPage=paginationKnowLastPage(count)
             let response={
                 meta:{
                     status:200,
@@ -20,11 +21,13 @@ const testimonialsControler={
                     url:"/testimonials"
                 },
                 pagina:{
+                    totales:lastPage,
                     actual:page
+                    
                 },
                 data:rows
             }
-            const lastPage=paginationKnowLastPage(count)
+            
             if (page==1 && lastPage>1) {
                 response.pagina.siguiente=`/testimonials?page=${page-1+2}`
             } else if (page>1 && page<lastPage) {
