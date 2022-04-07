@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const {getAllUser, getUserById, update} = require("../controllers/usersController");
+
+const {getAllUser, getUserById, deleteUserById,update} = require("../controllers/usersController");
 const {validarJWT} = require("../middlewares/validarJWT");
 const {esAdminRol} = require("../middlewares/validateRole");
 const authMiddleware = require("../middlewares/authMiddleware");
+
 /* GET users listing. */
 /* router.get('/', async(req, res, next) => {
   try {
@@ -16,7 +18,9 @@ const authMiddleware = require("../middlewares/authMiddleware");
 }); */
 router.get("/", [validarJWT, esAdminRol], getAllUser);
 router.get("/:id", getUserById);
+router.delete("/:id", [validarJWT, esAdminRol], deleteUserById);
 router.patch('/:id', authMiddleware, update);
+
 /*GET user by Id */
 
 /* router.get("/:id", async (req, res, next) => {
@@ -91,7 +95,6 @@ router.patch('/:id', authMiddleware, update);
 
 /*LOGIN user*/
 
-
 /* router.post('/auth/login', loginValidator, usersController.login)
 
 
@@ -100,13 +103,9 @@ router.patch('/:id', authMiddleware, update);
 
 //router.post("/auth/login", loginValidator, usersController.login);
 
-
 module.exports = router;
 
 /* router.post('/auth/login', loginValidator, usersController.login)
 router.get('/auth/me', usersController.me);
 router.patch('/:id', usersController.update);
  */
-
-
-

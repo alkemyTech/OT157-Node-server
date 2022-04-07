@@ -1,6 +1,6 @@
 const db = require("../models");
 const bcryptjs = require("bcryptjs");
-const {generarJWT} = require("../helpers/generarJWT");
+const { generarJWT } = require("../helpers/generarJWT");
 const {validarJWT} = require("../middlewares/validarJWT");
 const jwt = require('jsonwebtoken');
 
@@ -8,20 +8,33 @@ const getAllUser = async (req, res) => {
   const users = await db.User.findAll({
     attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
   });
-  res.status(400).json({users});
+  res.status(400).json({ users });
 };
 
 const getUserById = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const user = await db.User.findByPk(id, {
     attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
   });
-  res.status(400).json({user});
+  res.status(400).json({ user });
 };
 
+const deleteUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await db.User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    await user.destroy();
+    return res.status(200).json({ msg: "User deleted" });
+  } catch {
+    return res.status(500).json({ msg: "Error deleting user" });
+  }
+};
 
 const login = async (req, res) => {
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
   try {
     //1 Verificar si el email existe
@@ -106,6 +119,7 @@ const update = async (req, res) => {
   }
 }
 module.exports = {getAllUser, getUserById, me, update};
+
 
 /* 
 const { validationResult } = require("express-validator");
