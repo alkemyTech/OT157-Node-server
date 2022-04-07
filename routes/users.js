@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {getAllUser, getUserById, deleteUserById,update} = require("../controllers/usersController");
+const {getAllUser, getUserById, deleteUserById, update} = require("../controllers/usersController");
 const {validarJWT} = require("../middlewares/validarJWT");
 const {esAdminRol} = require("../middlewares/validateRole");
 const authMiddleware = require("../middlewares/authMiddleware");

@@ -118,7 +118,7 @@ const update = async (req, res) => {
     return res.status(400).json(error);
   }
 }
-module.exports = {getAllUser, getUserById, me, update};
+module.exports = {getAllUser, getUserById, me, update, deleteUserById};
 
 
 /* 
