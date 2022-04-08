@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const {Model} = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -10,20 +10,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       //Tuve que agregar la propiedad foreign key porque sino la migración no podía completarse
-      User.belongsTo(models.Role, {as: 'role',foreignKey:"roleId"});
+      User.belongsTo(models.Role, {as: "role", foreignKey: "roleId"});
     }
-  };
-  User.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    image: DataTypes.STRING,
-    password: DataTypes.STRING,
-    roleId: DataTypes.INTEGER,
-    deletedAt: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+  }
+  User.init(
+    {
+      firstName: DataTypes.STRING,
+      lastName: DataTypes.STRING,
+      email: DataTypes.STRING,
+      image: DataTypes.STRING,
+      password: DataTypes.STRING,
+      roleId: DataTypes.INTEGER,
+      deletedAt: DataTypes.DATE,
+    },
+    {
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };
