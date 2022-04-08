@@ -1,17 +1,40 @@
 const testimonialsService=require("../services/testimonialsService")
 const {validationResult}=require("express-validator")
+const paginationKnowLastPage=require('../helpers/paginationKnowLastPage')
 
 const testimonialsControler={
     list:async (req,res)=>{
         try {
-            const testimonials=await testimonialsService.list()
+            let page=req.query.page?req.query.page:1
+            let offset
+            if (page==1) {
+                offset=0
+            } else {
+                offset=(page-1)*10
+            }
+            const {count,rows}=await testimonialsService.list(offset)
+            const lastPage=paginationKnowLastPage(count)
             let response={
                 meta:{
                     status:200,
-                    count:testimonials.length,
+                    count:count,
                     url:"/testimonials"
                 },
-                data:testimonials
+                pagina:{
+                    totales:lastPage,
+                    actual:page
+                    
+                },
+                data:rows
+            }
+            
+            if (page==1 && lastPage>1) {
+                response.pagina.siguiente=`/testimonials?page=${page-1+2}`
+            } else if (page>1 && page<lastPage) {
+                response.pagina.anterior=`/testimonials?page=${page-1}` 
+                response.pagina.siguiente=`/testimonials?page=${page-1+2}`
+            } else if (page==lastPage && lastPage>1) {
+                response.pagina.anterior=`/testimonials?page=${page-1}`
             }
             res.status(200).json(response)
         } catch (error) {

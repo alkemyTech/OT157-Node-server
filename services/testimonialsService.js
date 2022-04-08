@@ -1,36 +1,30 @@
 const db=require("../models/index")
 
 const testimonialsControler={
-    list: async ()=>{
-        try {
-            const testimonials=await db.testimonial.findAll()
-            return testimonials
-        } catch (err) {console.log(err)}
+    list: async (query)=>{
+        const testimonials=await db.testimonial.findAndCountAll({
+            raw:true,
+            attributes:['id','name','image','content'],
+            limit:10,
+            offset:query
+        })
+        return testimonials
     },
     create: async (testimonial)=>{
-        try {
-            const testimonialCreated= await db.testimonial.create(testimonial)
-            return testimonialCreated
-        } catch (err) {console.log(err)}
+        const testimonialCreated= await db.testimonial.create(testimonial)
+        return testimonialCreated
     },
     findByPk: async (id)=>{
-        try {
-            const testimonial= await db.testimonial.findByPk(id)
-            return testimonial
-        } catch (err) {console.log(err)}
+        const testimonial= await db.testimonial.findByPk(id)
+        return testimonial
     },
     update: async (data,id)=>{
-        try {
-            const testimonialUpdate= await db.testimonial.update(data,{where:{id:id}})
-            return testimonialUpdate
-        } catch (err) {console.log(err)}
+        const testimonialUpdate= await db.testimonial.update(data,{where:{id:id}})
+        return testimonialUpdate
     },
     destroy:async(id)=>{
-        try {
-            const countRowDestroy= await db.testimonial.destroy({where:{id:id}})
-            return countRowDestroy
-        } catch (err) {console.log(err)}
-
+        const countRowDestroy= await db.testimonial.destroy({where:{id:id}})
+        return countRowDestroy
     }
 
 }
