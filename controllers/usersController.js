@@ -1,25 +1,40 @@
 const db = require("../models");
 const bcryptjs = require("bcryptjs");
-const {generarJWT} = require("../helpers/generarJWT");
+const { generarJWT } = require("../helpers/generarJWT");
+const {validarJWT} = require("../middlewares/validarJWT");
+const jwt = require('jsonwebtoken');
 
 const getAllUser = async (req, res) => {
   const users = await db.User.findAll({
     attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
   });
-  res.status(400).json({users});
+  res.status(400).json({ users });
 };
 
 const getUserById = async (req, res) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const user = await db.User.findByPk(id, {
     attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
   });
-  res.status(400).json({user});
+  res.status(400).json({ user });
 };
 
+const deleteUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await db.User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    await user.destroy();
+    return res.status(200).json({ msg: "User deleted" });
+  } catch {
+    return res.status(500).json({ msg: "Error deleting user" });
+  }
+};
 
 const login = async (req, res) => {
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
   try {
     //1 Verificar si el email existe
@@ -57,7 +72,54 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = {getAllUser, getUserById};
+const me = async (req, res) => {
+
+  const {id, firstName, lastName, email, image, roleId} = req.user;
+  res.json({
+    data: {
+            id,
+            firstName,
+            lastName,
+            email,
+            image,
+            roleId
+        }
+  });
+}
+
+const update = async (req, res) => {
+  const id = req.params.id;
+  const { firstName, lastName, image, email } = req.body;
+
+  try {
+    const user = await db.User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const userToUpdate = await db.User.update({
+      firstName,
+      lastName,
+      image,
+      email,
+    },
+    {
+      where: { id }
+    });
+    
+    return res.status(200).json({
+      message: 'User updated successfully',
+      user: await db.User.findByPk(id, { attributes: {
+        exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt']
+      }})
+    });
+
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+}
+module.exports = {getAllUser, getUserById, me, update, deleteUserById};
+
 
 /* 
 const { validationResult } = require("express-validator");
@@ -76,60 +138,6 @@ const usersController = {
       console.log(errors);
     }
   },
-  me: async (req, res) => {
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-
-      try {
-          const token = req.headers.authorization.split(' ')[1];
-          const decodeToken = jwt.verify(token, process.env.JWT_SECRET);
-
-          const user = await User.findByPk(decodeToken.user.id, {
-            attributes: {
-              exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt']
-            } 
-          });
-
-          return res.status(200).json(user);
-
-      } catch (error) {
-          const e = new Error('Invalid token');
-          return res.status(403).json({message: e.message});
-      }
-      
-  }
-    res.status(403).json({message: 'You are not authorized to access this page'});
-  },
-  update: async (req, res) => {
-      const id = req.params.id;
-      const { firstName, lastName, image, email } = req.body;
-
-      try {
-        const user = await User.findByPk(id);
-        if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-        }
-
-        const userToUpdate = await User.update({
-          firstName,
-          lastName,
-          image,
-          email,
-        },
-        {
-          where: { id }
-        });
-        
-        return res.status(200).json({
-          message: 'User updated successfully',
-          user: await User.findByPk(id, { attributes: {
-            exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt']
-          }})
-        });
-
-      } catch (error) {
-        return res.status(400).json(error);
-      }
-  }
 };
 
 module.exports = usersController; */
