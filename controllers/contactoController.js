@@ -1,6 +1,7 @@
 "use strict";
 const repository = require("../repositories/contactoRepository");
 const db = require("../models");
+const { sendNewContactEmail } = require("../services/emails");
 
 exports.updateContacto = async (req, res) => {
   const id = req.params.id;
@@ -8,6 +9,9 @@ exports.updateContacto = async (req, res) => {
   if (!updateContacto) {
     res.status(400).json({ message: "error updating organization" });
   } else {
+    //aca enviar email
+    //console.log(req.body.email);
+    //sendNewContactEmail(updateContacto.email, updateContacto.id);
     res.status(200).json("UPDATE");
   }
 };
