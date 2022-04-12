@@ -25,6 +25,25 @@ const contactsController = {
                 error: errors.mapped(),
             });
         }
+    },
+    getAll: async (req, res) => {
+        try {
+        const contacts = await db.Contacts.findAll({
+            attributes: {
+                exclude: ["createdAt", "updatedAt", "deletedAt"]
+            }
+        });
+        return res.status(200).json({
+            success: true,
+            count: contacts.length,
+            data: contacts
+        })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: error.message
+            });
+        }
     }
 }
 
