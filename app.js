@@ -5,6 +5,10 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
+const ymal = require("js-yaml");
+const fs = require("fs");
+
+
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -19,6 +23,11 @@ const authRouter = require("./routes/authRouter");
 const organizationRouter= require('./routes/organization.js');
 
 const newsRouter = require('./routes/news');
+
+// documentation
+const swaggerUi = require('swagger-ui-express');
+const doc = ymal.load(fs.readFileSync('doc/categories.yml', 'utf8'));
+
 
 
 const app = express();
@@ -59,6 +68,8 @@ app.use('/organization',organizationRouter);
 
 
 app.use('/news', newsRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(doc));
 
 
 // catch 404 and forward to error handler

@@ -4,13 +4,13 @@ const { listAll, create, categoryDetail, update, categoryDelete } = require('../
 const getCategoriesList = async (req, res) => {
     let { page } = req.query;
     if(!page) page = 1;
-    if(!parseInt(page)) return res.status(400).json({ message: 'Page not found' });
+    if(!parseInt(page)) return res.status(403).json({ message: `Page doesn't exist`});
     const categories = await listAll(page);
-    if(categories.count / 10 < parseInt(page)) return res.status(404).json({ message: `page doesn't exist` });
+    if(categories.count / 10 < parseInt(page)) return res.status(403).json({ message: `page doesn't exist` });
     if (!categories) return res.status(404).json({ message: 'Categories not found' });
     
     const previusPage = page <= 1 ? 1 : page - 1;
-    const nextPage = page >= categories.count / 10 ? page : parseInt(page) + 1;
+    const nextPage = page <= categories.count / 10 ? parseInt(page) + 1 : page ;
    
     return res.status(200).json({
         previusPage: `/categories?page=${previusPage}`,
@@ -27,8 +27,8 @@ const getCategoryDetail = async (req, res) => {
 
 const createCategory = async (req, res) => {
     const category = await create(req.body);
-    if (!category) return res.status(403).json({ message: 'Category not created' });
-    return res.status(200).json(category);
+    if (!category) return res.status(500).json({ message: 'Category not created' });
+    return res.status(201).json(category);
 }
 
 const updateCategory = async (req, res) => {
