@@ -1,40 +1,40 @@
 const db = require("../models");
 const bcryptjs = require("bcryptjs");
-const { generarJWT } = require("../helpers/generarJWT");
+const {generarJWT} = require("../helpers/generarJWT");
 const {validarJWT} = require("../middlewares/validarJWT");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const getAllUser = async (req, res) => {
   const users = await db.User.findAll({
     attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
   });
-  res.status(400).json({ users });
+  res.status(400).json({users});
 };
 
 const getUserById = async (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params;
   const user = await db.User.findByPk(id, {
     attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
   });
-  res.status(400).json({ user });
+  res.status(400).json({user});
 };
 
 const deleteUserById = async (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params;
   try {
     const user = await db.User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({msg: "User not found"});
     }
     await user.destroy();
-    return res.status(200).json({ msg: "User deleted" });
+    return res.status(200).json({msg: "User deleted"});
   } catch {
-    return res.status(500).json({ msg: "Error deleting user" });
+    return res.status(500).json({msg: "Error deleting user"});
   }
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  const {email, password} = req.body;
 
   try {
     //1 Verificar si el email existe
@@ -73,53 +73,47 @@ const login = async (req, res) => {
 };
 
 const me = async (req, res) => {
-
-  const {id, firstName, lastName, email, image, roleId} = req.user;
+  const {userAuth} = req;
   res.json({
-    data: {
-            id,
-            firstName,
-            lastName,
-            email,
-            image,
-            roleId
-        }
+    userAuth,
   });
-}
+};
 
 const update = async (req, res) => {
   const id = req.params.id;
-  const { firstName, lastName, image, email } = req.body;
+  const {firstName, lastName, image, email} = req.body;
 
   try {
     const user = await db.User.findByPk(id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({message: "User not found"});
     }
 
-    const userToUpdate = await db.User.update({
-      firstName,
-      lastName,
-      image,
-      email,
-    },
-    {
-      where: { id }
-    });
-    
-    return res.status(200).json({
-      message: 'User updated successfully',
-      user: await db.User.findByPk(id, { attributes: {
-        exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt']
-      }})
-    });
+    const userToUpdate = await db.User.update(
+      {
+        firstName,
+        lastName,
+        image,
+        email,
+      },
+      {
+        where: {id},
+      }
+    );
 
+    return res.status(200).json({
+      message: "User updated successfully",
+      user: await db.User.findByPk(id, {
+        attributes: {
+          exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
+        },
+      }),
+    });
   } catch (error) {
     return res.status(400).json(error);
   }
-}
+};
 module.exports = {getAllUser, getUserById, me, update, deleteUserById};
-
 
 /* 
 const { validationResult } = require("express-validator");

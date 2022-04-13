@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const {getAllUser, getUserById, deleteUserById, update} = require("../controllers/usersController");
+const {
+  getAllUser,
+  getUserById,
+  deleteUserById,
+  update,
+} = require("../controllers/usersController");
 const {validarJWT} = require("../middlewares/validarJWT");
 const {esAdminRol} = require("../middlewares/validateRole");
 const authMiddleware = require("../middlewares/authMiddleware");
@@ -19,7 +24,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 router.get("/", [validarJWT, esAdminRol], getAllUser);
 router.get("/:id", getUserById);
 router.delete("/:id", [validarJWT, esAdminRol], deleteUserById);
-router.patch('/:id', authMiddleware, update);
+router.patch("/:id", [validarJWT], update);
 
 /*GET user by Id */
 

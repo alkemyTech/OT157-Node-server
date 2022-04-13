@@ -19,15 +19,18 @@ const login = require("./routes/login");
 const activitiesRouter = require("./routes/activities");
 const testimonialsRouter = require("./routes/testimonials");
 const authRouter = require("./routes/authRouter");
+const membersRouter = require("./routes/members");
+const contactsRouter = require("./routes/contacts");
 
-const organizationRouter= require('./routes/organization.js');
+const organizationRouter = require("./routes/organization.js");
 
-const newsRouter = require('./routes/news');
 
 // documentation
 const swaggerUi = require('swagger-ui-express');
 const doc = ymal.load(fs.readFileSync('doc/categories.yml', 'utf8'));
 
+
+const newsRouter = require("./routes/news");
 
 
 const app = express();
@@ -58,12 +61,11 @@ app.use("/users", usersRouter);
 app.use("/categories", categoriesRouter);
 app.use("/testimonials", testimonialsRouter);
 app.use("/slides", slideRouter);
-
-
 app.use("/register", register);
 app.use("/auth/login", login);
-app.use('/auth', authRouter);
+app.use("/auth", authRouter);
 app.use("/activities", activitiesRouter);
+
 app.use('/organization',organizationRouter);
 
 
@@ -71,6 +73,10 @@ app.use('/news', newsRouter);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(doc));
 
+app.use("/organization", organizationRouter);
+app.use("/members", membersRouter);
+app.use("/contacts", contactsRouter)
+app.use("/news", newsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -89,6 +95,5 @@ app.use(function (err, req, res, next) {
 });
 
 const port = process.env.PORT || 3001;
-
 
 module.exports = app;
