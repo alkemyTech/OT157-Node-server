@@ -11,7 +11,7 @@ const getCategoriesList = async (req, res) => {
     
     const previusPage = page <= 1 ? 1 : page - 1;
     const nextPage = page <= categories.count / 10 ? parseInt(page) + 1 : page ;
-   
+  
     return res.status(200).json({
         previusPage: `/categories?page=${previusPage}`,
         nextPage: `/categories?page=${nextPage}`,
@@ -29,6 +29,16 @@ const createCategory = async (req, res) => {
     const category = await create(req.body);
     if (!category) return res.status(500).json({ message: 'Category not created' });
     return res.status(201).json(category);
+}
+
+const updateCategory = async (req, res) => {
+    const { id } = req.params;
+    const category = await update(id, req.body);
+    if(!category) return res.status(404).json({ message: 'Category not found' });
+    return res.status(200).json({
+        message: 'Category updated',
+        category,
+    });
 }
 
 const updateCategory = async (req, res) => {
