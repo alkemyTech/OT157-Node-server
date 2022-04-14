@@ -5,6 +5,10 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
+const ymal = require("js-yaml");
+const fs = require("fs");
+
+
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -21,8 +25,15 @@ const backofficeRouter = require("./routes/backoffice");
 
 const organizationRouter = require("./routes/organization.js");
 
+
+// documentation
+const swaggerUi = require('swagger-ui-express');
+const doc = ymal.load(fs.readFileSync('doc/categories.yml', 'utf8'));
+
+
 const newsRouter = require("./routes/news");
 const commentsRouter=require("./routes/comments")
+
 
 const app = express();
 app.use(cors());
@@ -56,6 +67,14 @@ app.use("/register", register);
 app.use("/auth/login", login);
 app.use("/auth", authRouter);
 app.use("/activities", activitiesRouter);
+
+app.use('/organization',organizationRouter);
+
+
+app.use('/news', newsRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(doc));
+
 app.use("/organization", organizationRouter);
 app.use("/members", membersRouter);
 app.use("/contacts", contactsRouter)
