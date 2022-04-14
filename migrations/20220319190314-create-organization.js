@@ -24,9 +24,12 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER,
       },
+
+
       contactoId: {
         type: Sequelize.INTEGER,
       },
+
       email: {
         allowNull: false,
         type: Sequelize.STRING,
