@@ -3,10 +3,17 @@ const { validate } = require('../util/validateHelper');
 
 
 const validateCreate = [
-    check('name').exists().isString().not().isEmpty(),
+    check('name', 'name is required').exists().isString().not().isEmpty(),
     check('description').isString(),
     check('image').isString(),
     (req, res, next) => validate(req, res, next)
 ]
 
-module.exports = { validateCreate }
+const validateUpdate = [
+    check('name').isString(),
+    check('description').isString(),
+    check('image').isString(),
+    (req, res, next) => validate(req, res, next)
+]
+
+module.exports = { validateCreate, validateUpdate };
