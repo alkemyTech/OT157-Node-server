@@ -10,4 +10,9 @@ const validateUpdateContacto = [
     (req, res, next) => validate(req, res, next)
 ]
 
-module.exports = { validateUpdateContacto }
+const validateCreateContacto = [
+    check('name').notEmpty().withMessage('El nombre es requerido').bail().isString(),
+    check('email').notEmpty().withMessage('El email es requerido').bail().isEmail(),
+]
+
+module.exports = { validateUpdateContacto, validateCreateContacto }

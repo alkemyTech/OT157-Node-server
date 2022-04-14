@@ -17,6 +17,7 @@ const testimonialsRouter = require("./routes/testimonials");
 const authRouter = require("./routes/authRouter");
 const membersRouter = require("./routes/members");
 const contactsRouter = require("./routes/contacts");
+const backofficeRouter = require("./routes/backoffice");
 
 const organizationRouter = require("./routes/organization.js");
 
@@ -58,6 +59,7 @@ app.use("/organization", organizationRouter);
 app.use("/members", membersRouter);
 app.use("/contacts", contactsRouter)
 app.use("/news", newsRouter);
+app.use('/backoffice', backofficeRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
