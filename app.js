@@ -2,6 +2,8 @@ const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const fileUpload = require('express-fileupload');
+
 const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
@@ -51,7 +53,10 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+app.use(fileUpload({
+  useTempFiles : true,
+  tempFileDir : '/tmp/',
+}));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -81,6 +86,7 @@ app.use("/contacts", contactsRouter)
 app.use("/news", newsRouter);
 app.use("/comments", commentsRouter);
 app.use('/backoffice', backofficeRouter);
+
 
 
 // catch 404 and forward to error handler
