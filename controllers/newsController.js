@@ -1,5 +1,5 @@
 const db = require("../models");
-const { getAllNews, getNewsById, postNews } = require("../services/newsService");
+const { getAllNews, getNewsById, postNews, updateOne, deleteOne } = require("../services/newsService");
 
 const newsController = {
   getNewsList: async (req, res) => {
@@ -10,6 +10,12 @@ const newsController = {
   },
   createNews: async (req, res) => {
     await postNews(req, res)
+  },
+  updateNews: async (req, res) => {
+    await updateOne(req, res)
+  },
+  deleteNews: async (req, res) => {
+    await deleteOne(req, res)
   },
   getComments:async(req,res)=>{
     try{
@@ -22,7 +28,7 @@ const newsController = {
     } catch (error){
       res.status(404).json(error)
     }
-  }
+  },
 };
 
 module.exports = newsController;

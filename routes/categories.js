@@ -1,14 +1,17 @@
-const { getCategoriesList, createCategory, getCategoryDetail, deleteCategory } = require('../controllers/categoriesController');
+const { getCategoriesList, createCategory, getCategoryDetail, updateCategory, deleteCategory } = require('../controllers/categoriesController');
 const express = require('express');
 const router = express.Router();
-const { validateCreate } = require('../validators/categoriesValidator');
+const { validateCreate, validateUpdate } = require('../validators/categoriesValidator');
+const { validarJWT } = require('../middlewares/validarJWT');
+const { esAdminRol } = require('../middlewares/validateRole')
 
 
 
-router.get('/', getCategoriesList);
-router.get('/:id', getCategoryDetail);
-router.post('/', validateCreate, createCategory);
-router.delete('/:id', deleteCategory);
+router.get('/', validarJWT, esAdminRol, getCategoriesList);
+router.get('/:id',validarJWT, esAdminRol, getCategoryDetail);
+router.post('/',validarJWT, esAdminRol, validateCreate, createCategory);
+router.put('/:id', validarJWT, esAdminRol, validateUpdate, updateCategory);
+router.delete('/:id', validarJWT, esAdminRol, deleteCategory);
 
 
 

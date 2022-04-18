@@ -2,13 +2,12 @@
 const db = require("../models");
 
 const getMembers = async (req, res) => {
-  await db.Member.findAll()
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) => {
-      res.status(400).json("Error in get members" + err);
-    });
+  try {
+    const data = await db.Member.findAll();
+    return res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json("error getting members" + error);
+  }
 };
 
 module.exports = {
