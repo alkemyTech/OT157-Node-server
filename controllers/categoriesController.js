@@ -62,3 +62,4 @@ module.exports = {
   updateCategory,
   deleteCategory,
 };
+
