@@ -25,7 +25,7 @@ describe('Testing routes off Activities', ()=>{
     })
     describe('Testing PUT method on route /activities',()=>{
         it('should update an activity',(done)=>{
-            const idToTest=14;
+            const idToTest=2;
             chai.request(server)
             .put(`/activities/${idToTest}`)
             .send({name: "Activity updated test", content: 'Content updated test', image: 'Url image updated test'})
