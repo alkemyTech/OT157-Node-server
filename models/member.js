@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+"use strict";
+const {Model} = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Member extends Model {
     /**
@@ -10,53 +10,51 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  };
-  Member.init({
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      primaryKey: true,
+  }
+  Member.init(
+    {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      facebookUrl: {
+        type: DataTypes.STRING,
+      },
+      instagramUrl: {
+        type: DataTypes.STRING,
+      },
+      linkedinUrl: {
+        type: DataTypes.STRING,
+      },
+      image: {
+        type: DataTypes.STRING,
+      },
+      description: {
+        type: DataTypes.STRING,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
     },
-    name: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    facebookUrl: {
-      allowNull: true,
-      type: DataTypes.STRING
-    },
-    instagramUrl: {
-      allowNull: true,
-      type: DataTypes.STRING
-    },
-    linkedinUrl: {
-      allowNull: true,
-      type: DataTypes.STRING
-    },
-    image: {
-      allowNull: false,
-      type: DataTypes.STRING
-    },
-    description: {
-      type: DataTypes.STRING
-    },
-    deletedAt: {
-      allowNull: false,
-      type: DataTypes.DATE
-    },
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE
+    {
+      sequelize,
+      modelName: "Member",
+      paranoid: true,
     }
-  }, {
-    sequelize,
-    modelName: 'Member',
-    paranoid: true
-  });
+  );
   return Member;
 };
