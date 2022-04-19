@@ -7,4 +7,10 @@ const listAll=async()=>{
     })
 }
 
-module.exports={listAll}
+const update=async(data,id)=>{
+    return await Comment.update(data,{
+        where:{id}
+    })
+}
+
+module.exports={listAll,update}
