@@ -30,7 +30,7 @@ const organizationRouter = require("./routes/organization.js");
 
 // documentation
 const swaggerUi = require('swagger-ui-express');
-const doc = ymal.load(fs.readFileSync('doc/categories.yml', 'utf8'));
+const doc = ymal.load(fs.readFileSync('doc/documentation.yml', 'utf8'));
 
 
 const newsRouter = require("./routes/news");
