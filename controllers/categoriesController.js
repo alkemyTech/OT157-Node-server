@@ -77,14 +77,13 @@ const deleteCategory = async (req, res) => {
     return res.status(201).json(category);
 }
 
-
 const deleteCategory = async (req, res) => {
     const category = await categoryDelete(req.params.id);
     if (!category) return res.status(404).json({ message: 'Category not found' });
     return res.status(200).json({ message: 'Category deleted' });
 }
 
-module.exports = { getCategoriesList, createCategory, getCategoryDetail, updateCategory, deleteCategory };
+module.exports = { getCategoriesList, createCategory, getCategoryDetail, deleteCategory };
 
 
 

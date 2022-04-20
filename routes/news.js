@@ -8,7 +8,7 @@ const { esAdminRol } = require("../middlewares/validateRole");
 const { validateCreate } = require("../validators/newsValidator");
 
 //Create news
-router.post("/", validarJWT, esAdminRol, validateCreate, createNews);
+router.post("/", /* validarJWT, esAdminRol, */ validateCreate, createNews);
 
 //Get all news
 router.get("/", pagination, getNewsList);
