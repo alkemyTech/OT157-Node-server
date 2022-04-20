@@ -1,10 +1,12 @@
 "use strict";
-const db = require("../models");
+const {Member} = require("../models");
 
 const getMembers = async (req, res) => {
   let { page, size, prevPage } = req.query;
 
   try {
+    const data = await Member.findAll();
+    return res.status(200).json(data);
     const data = await db.Member.findAll({
       limit: size,
       offset: page > 1 ? (page - 1) * size : 0,
@@ -34,6 +36,21 @@ const getMembers = async (req, res) => {
       });
   }
 };
+
+const createMembers = async (req, res) => {
+  const {body} = req;
+  try {
+    const member = new Member(body);
+    await member.save();
+    return res.status(200).json({msg: "successful creation"});
+  } catch (error) {
+    return res.status(500).json({
+      msg: `error in the creation of member`,
+      error,
+    });
+  }
+};
+
 
 const updateMember = async (req, res) => {
   const { id } = req.params;
