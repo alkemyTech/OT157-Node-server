@@ -7,7 +7,7 @@ const { esAdminRol } = require('../middlewares/validateRole')
 
 
 
-router.get('/', validarJWT, esAdminRol, getCategoriesList);
+router.get('/',validarJWT, esAdminRol, getCategoriesList);
 router.get('/:id',validarJWT, esAdminRol, getCategoryDetail);
 router.post('/',validarJWT, esAdminRol, validateCreate, createCategory);
 router.put('/:id', validarJWT, esAdminRol, validateUpdate, updateCategory);
