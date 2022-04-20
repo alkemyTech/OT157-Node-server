@@ -10,11 +10,11 @@ chai.use(chaiHttp);
 
 const url = `http://localhost:${process.env.PORT}`;
 
-describe('Testing routes off Activities', ()=>{
-    describe('Testing GET method on route /activities',()=>{
-        it('should get all activities',(done)=>{
+describe('Testing routes off Testimonials', ()=>{
+    describe('Testing GET method on route /testimonials',()=>{
+        it('should get all testimonials',(done)=>{
             chai.request(server)
-            .get('/activities')
+            .get('/testimonials')
             .end((err,res)=>{
                     console.log(res.body)
                     expect(res.body).to.be.a('array')
@@ -23,12 +23,12 @@ describe('Testing routes off Activities', ()=>{
                 })
         })
     })
-    describe('Testing PUT method on route /activities',()=>{
-        it('should update an activity',(done)=>{
-            const idToTest=2;
+    describe('Testing PUT method on route /testimonials',()=>{
+        it('should update an testimonial',(done)=>{
+            const idToTest=14;
             chai.request(server)
-            .put(`/activities/${idToTest}`)
-            .send({name: "Activity updated test", content: 'Content updated test', image: 'Url image updated test'})
+            .put(`/testimonials/${idToTest}`)
+            .send({name: "Testimonial updated test", content: 'Content updated test', image: 'Url image updated test'})
             .end((err,res)=>{                    
                     expect(res.body).to.be.a('object')
                     expect(res.body).to.have.property('id')
@@ -41,10 +41,10 @@ describe('Testing routes off Activities', ()=>{
                 })
         })
     })
-    describe('Testing POST method on route /activities',()=>{
+    describe('Testing POST method on route /testimonials',()=>{
         it('should create a new activity',(done)=>{
             chai.request(server)
-            .post('/activities')
+            .post('/testimonials')
             .send({name: "Activity test", content: 'Content test', image: 'Url image test'})
             .end((err,res)=>{
                     

@@ -4,9 +4,9 @@ const { listAll, create, categoryDetail, update, categoryDelete } = require('../
 const getCategoriesList = async (req, res) => {
     let { page } = req.query;
     if(!page) page = 1;
-    if(!parseInt(page)) return res.status(403).json({ message: `Page doesn't exist`});
+    if(!parseInt(page)) return res.status(400).json({ message: `Page doesn't exist`});
     const categories = await listAll(page);
-    if(categories.count / 10 < parseInt(page)) return res.status(403).json({ message: `page doesn't exist` });
+    if(categories.count / 10 < parseInt(page)) return res.status(400).json({ message: `page doesn't exist` });
     if (!categories) return res.status(404).json({ message: 'Categories not found' });
     
     const previusPage = page <= 1 ? 1 : page - 1;
@@ -31,6 +31,8 @@ const createCategory = async (req, res) => {
     return res.status(201).json(category);
 }
 
+
+/*
 const updateCategory = async (req, res) => {
     const { id } = req.params;
     const category = await update(id, req.body);
@@ -40,6 +42,7 @@ const updateCategory = async (req, res) => {
         category,
     });
 }
+*/
 
 const deleteCategory = async (req, res) => {
     const category = await categoryDelete(req.params.id);
@@ -47,7 +50,7 @@ const deleteCategory = async (req, res) => {
     return res.status(200).json({ message: 'Category deleted' });
 }
 
-module.exports = { getCategoriesList, createCategory, getCategoryDetail, updateCategory, deleteCategory };
+module.exports = { getCategoriesList, createCategory, getCategoryDetail, /* updateCategory */ deleteCategory };
 
 
 
