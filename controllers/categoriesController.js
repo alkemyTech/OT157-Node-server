@@ -55,6 +55,9 @@ const deleteCategory = async (req, res) => {
   return res.status(200).json({message: "Category deleted"});
 };
 
+
+
+
 module.exports = {
   getCategoriesList,
   createCategory,
