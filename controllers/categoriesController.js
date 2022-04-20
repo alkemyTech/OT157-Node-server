@@ -31,8 +31,6 @@ const createCategory = async (req, res) => {
     return res.status(201).json(category);
 }
 
-
-
 /* const updateCategory = async (req, res) => {
     const { id } = req.params;
     const category = await update(id, req.body);
