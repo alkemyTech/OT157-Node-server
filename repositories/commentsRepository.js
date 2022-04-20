@@ -56,4 +56,6 @@ const getComments = async (id) =>{
     return list
 }
 
+
 module.exports = { listAll, createComment, deleteComment, update, getComments };
+

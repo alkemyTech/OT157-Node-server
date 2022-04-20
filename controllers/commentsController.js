@@ -63,8 +63,8 @@ const updateComment=async(req,res)=>{
     if (!commentsUpdate) return res.status(404).json({message:'No se actualizó el comentario'});
     return res.status(200).json(commentsUpdate)
 
-
 }
+
 
 module.exports = { getCommentsList, postComment, deleteOne, updateComment };
 
