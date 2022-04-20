@@ -1,7 +1,9 @@
 const express = require("express");
 const {check} = require("express-validator");
 const router = express.Router();
-const {getMembers, createMembers} = require("../controllers/memberController");
+
+const { getMembers, updateMember,createMembers, deleteMember } = require("../controllers/memberController");
+const { pagination } = require("../middlewares/paginationMiddleware_p1");
 
 const {validarJWT} = require("../middlewares/validarJWT");
 const {validateFields} = require("../middlewares/validateFields");
@@ -19,5 +21,8 @@ router.post(
   ],
   createMembers
 );
+router.get("/", pagination, getMembers);
+router.put('/:id', updateMember);
+router.delete('/:id', deleteMember);
 
 module.exports = router;
