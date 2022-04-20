@@ -31,7 +31,7 @@ const createCategory = async (req, res) => {
     return res.status(201).json(category);
 }
 
-/* const updateCategory = async (req, res) => {
+const updateCategory = async (req, res) => {
     const { id } = req.params;
     const category = await update(id, req.body);
     if(!category) return res.status(404).json({ message: 'Category not found' });
@@ -39,7 +39,7 @@ const createCategory = async (req, res) => {
         message: 'Category updated',
         category,
     });
-} */
+}
 
 const deleteCategory = async (req, res) => {
     const category = await categoryDelete(req.params.id);
