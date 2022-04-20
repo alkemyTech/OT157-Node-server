@@ -1,5 +1,5 @@
 const db = require("../models");
-const { getAllNews, getNewsById, postNews, updateOne, deleteOne } = require("../services/newsService");
+const { getAllNews, getNewsById, postNews, updateOne, deleteOne, getCommentsByNews } = require("../services/newsService");
 
 const newsController = {
   getNewsList: async (req, res) => {
@@ -16,6 +16,9 @@ const newsController = {
   },
   deleteNews: async (req, res) => {
     await deleteOne(req, res)
+  },
+  getComments: async (req,res)=>{
+   await getCommentsByNews(req, res)
   },
 };
 
