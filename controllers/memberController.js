@@ -5,7 +5,6 @@ const getMembers = async (req, res) => {
   let {page, size, prevPage} = req.query;
 
   try {
-    const data = await Member.findAll();
     const data = await db.Member.findAll({
       limit: size,
       offset: page > 1 ? (page - 1) * size : 0,
