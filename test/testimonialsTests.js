@@ -17,46 +17,70 @@ describe('Testing routes off Testimonials', ()=>{
             .get('/testimonials')
             .end((err,res)=>{
                     console.log(res.body)
-                    expect(res.body).to.be.a('array')
+                    expect(res.body).to.be.a('object')
                     expect(res).to.have.status(200)
+                    done();
+                })
+        })
+    })
+    describe('Testing POST method on route /testimonials',()=>{
+        it('should create a new testimonial',(done)=>{
+            chai.request(server)
+            .post('/testimonials')
+            .set("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwLCJpYXQiOjE2NTA2ODI1MjUsImV4cCI6MTY1MDY5NjkyNX0.tKaG8zUnr-QDN9FpVrFJdvKRZaeWn86-3Qh9RxYsTtU")
+            .send({
+                name:"TestimonioPruebaMocha",
+                image:"testimonioPrueba.jpg",
+                content:"Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto."
+            })
+            .end((err,res)=>{
+                    
+                    expect(res.body).to.be.a('object')
+                    expect(res.body).to.have.property('meta')
+                    expect(res).to.have.status(200)
+
                     done();
                 })
         })
     })
     describe('Testing PUT method on route /testimonials',()=>{
         it('should update an testimonial',(done)=>{
-            const idToTest=14;
+            const idToTest=69;
             chai.request(server)
             .put(`/testimonials/${idToTest}`)
-            .send({name: "Testimonial updated test", content: 'Content updated test', image: 'Url image updated test'})
+            .set("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwLCJpYXQiOjE2NTA2ODI1MjUsImV4cCI6MTY1MDY5NjkyNX0.tKaG8zUnr-QDN9FpVrFJdvKRZaeWn86-3Qh9RxYsTtU")
+            .send({
+                name:"TestimonioPruebaMocha nuevamente Modificado",
+                image:"testimonioPrueba.jpg",
+                content:"Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto."
+            })
             .end((err,res)=>{                    
                     expect(res.body).to.be.a('object')
-                    expect(res.body).to.have.property('id')
-                    expect(res.body).to.have.property('name')
-                    expect(res.body).to.have.property('content')
-                    expect(res.body).to.have.property('image')
                     expect(res).to.have.status(200)
                     if (err) done(err)
                     else done()                    
                 })
         })
     })
-    describe('Testing POST method on route /testimonials',()=>{
-        it('should create a new activity',(done)=>{
+    describe('Testing PUT method on route /testimonials',()=>{
+        it('should update an testimonial',(done)=>{
+            const idToTest=1;
             chai.request(server)
-            .post('/testimonials')
-            .send({name: "Activity test", content: 'Content test', image: 'Url image test'})
-            .end((err,res)=>{
-                    
+            .put(`/testimonials/${idToTest}`)
+            .set("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjUwLCJpYXQiOjE2NTA2ODI1MjUsImV4cCI6MTY1MDY5NjkyNX0.tKaG8zUnr-QDN9FpVrFJdvKRZaeWn86-3Qh9RxYsTtU")
+            .send({
+                name:"TestimonioPruebaMochaModificado",
+                image:"testimonioPrueba.jpg",
+                content:"Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto."
+            })
+            .end((err,res)=>{                    
                     expect(res.body).to.be.a('object')
-                    expect(res.body).to.have.property('id')
-                    expect(res.body).to.have.property('name')
-                    expect(res.body).to.have.property('content')
-                    expect(res.body).to.have.property('image')
                     expect(res).to.have.status(200)
-                    done();
+                    if (err) done(err)
+                    else done()                    
                 })
         })
     })
 });
+
 
