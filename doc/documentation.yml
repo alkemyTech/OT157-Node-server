@@ -9,6 +9,8 @@ tags:
   description: "Get category names"
 - name: "News"
   description: "News endpoints"
+- name: "Activities"
+  description: "Activities endpoints"  
 components:
   schemas:
     Category:
@@ -35,6 +37,44 @@ components:
         deleted_at:
           type: string
           description: "Category deletion date"
+    Activity:
+      type: object
+      required: ["name","content"]
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          description: "Activity name"
+        content:
+          type: string
+          description: "Activity content"
+        image:
+          type: string
+          description: "Activity image URL"
+        created_at:
+          type: string
+          description: "Activity creation date"
+        updated_at:
+          type: string
+          description: "Activity update date"
+        deleted_at:
+          type: string
+          description: "Activity deletion date" 
+    ActivityBody:
+      type: object
+      required: ["name","content"]
+      properties:
+        name:
+          type: string
+          description: "Activity name"
+        content:
+          type: string
+          description: "Activity content"
+        image:
+          type: string
+          description: "Activity image URL"
     News:
       type: object
       required: ["name", "content", "categoryId", "image"]
@@ -76,8 +116,6 @@ paths:
       summary: "Find categories sorted by page"
       description: "Returns a list of ten category names sorted by page, starting with page 1 and returns 
         the previus and next page links according the page number you're currently on."
-      produces:
-      - "application/json"
       parameters:
       - name: "page"
         in: "query"
@@ -144,8 +182,7 @@ paths:
       - "Categories"
       summary: "Find category by id"
       description: "Returns a category by id"
-      produces:
-      - "application/json"
+      
       parameters:
       - name: "categoryId"
         in: "path"
@@ -177,8 +214,7 @@ paths:
       - "Categories"
       summary: "Update category"
       description: "Updates a category"
-      produces:
-      - "application/json"
+      
       parameters:
       - name: "categoryId"
         in: "path"
@@ -254,8 +290,7 @@ paths:
       summary: "Find news sorted by page"
       description: "Returns a list News sorted by page with a default page size of 10, starting with page 0 and returning 
         the currently page you are on, total of pages and previus/next page according to the page number you're currently on."
-      produces:
-      - "application/json"
+      
       parameters:
       - name: "page"
         in: "query"
@@ -369,8 +404,7 @@ paths:
       - "News"
       summary: "Find News by id"
       description: "Returns a News by id"
-      produces:
-      - "application/json"
+      
       parameters:
       - name: "Id"
         in: "path"
@@ -411,8 +445,7 @@ paths:
       - "News"
       summary: "Update News"
       description: "Updates a News"
-      produces:
-      - "application/json"
+      
       parameters:
       - name: "Id"
         in: "path"
@@ -496,12 +529,113 @@ paths:
           description: "Unauthorized"
         404:
           description: "Not found"
-
-    
-
-        
-
-      
-
-
-
+  /activities:
+    description: "Routes to Create, create and get all the activities"
+    get:
+      tags:
+      - "Activities"
+      summary: "Get all the activities"
+      description: "Returns all the Activities"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: "#/components/schemas/Activity"
+              example:
+              - id: 1
+                name: 'Activity name 1'
+                content: 'Activity content 1'
+                image: 'URL image 1'
+                deletedAt: null|true|false
+                createdAt: 'DATE'
+                updatedAt: 'DATE'
+              - id: 2
+                name: 'Activity name 2'
+                content: 'Activity content 2'
+                image: 'URL image 2'
+                deletedAt: null|true|false
+                createdAt: 'DATE'
+                updatedAt: 'DATE'
+        '404':
+          description: Bad request
+        default:
+          description: Unexpected error
+    post:
+      tags:
+      - "Activities"
+      summary: "Create a new activity"
+      description: "Return the new activity"
+      requestBody:
+        description: "Activity object that needs to be created"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ActivityBody"
+            example:
+              name: 'Created in swagger'
+              content: 'Created in swagger'
+              image: 'New Url image swagger'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: "#/components/schemas/Activity"
+              example:
+                id: 11
+                name: 'Created in swagger'
+                content: 'Created in swagger'
+                image: 'New Url image swagger'
+                deletedAt: 'DATE'
+                updatedAt: 'DATE'
+                createdAt: 'DATE'
+        '404':
+          description: Bad request
+        default:
+          description: Unexpected error        
+  /activities/{Id}:
+    description: "Routes to update an activity"
+    put:
+      tags:
+      - "Activities"
+      summary: "Update activity by ID"
+      description: "Return the updated activity"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "Activity ID"
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: "Activity object that needs to be updated"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ActivityBody"
+            example:
+              name: 'Updated name in swagger'
+              content: 'Updated content in swagger'
+              image: 'Updated Url image swagger'  
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: "#/components/schemas/Activity"
+              example:
+                id: 11
+                name: 'Updated name in swagger'
+                content: 'Updated content in swagger'
+                image: 'Updated Url image swagger'
+                deletedAt: 'DATE'
+                updatedAt: 'DATE'
+                createdAt: 'DATE'
+        '404':
+          description: Bad request
+        default:
+          description: Unexpected error
