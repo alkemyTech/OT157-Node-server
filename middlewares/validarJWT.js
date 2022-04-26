@@ -4,7 +4,7 @@ const db = require("../models");
 const validarJWT = async (req = request, res = response, next) => {
   const token = req.header("token");
   if (!token) {
-    return res.status(401).json({
+    return res.status(403).json({
       msg: "No posee autorizacion para realizar esta accion",
     });
   }
@@ -13,7 +13,7 @@ const validarJWT = async (req = request, res = response, next) => {
     const userAuth = await db.User.findByPk(uid);
 
     if (!userAuth) {
-      return res.status(401).json({
+      return res.status(403).json({
         msg: "token no valido-- usuario no existente",
       });
     }
@@ -24,7 +24,7 @@ const validarJWT = async (req = request, res = response, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.status(401).json({
+    res.status(403).json({
       msg: "token no valido",
     });
   }
