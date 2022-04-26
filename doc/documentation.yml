@@ -3,16 +3,88 @@ info:
   version: "1.0.0"
   title: "ONG-OT157"
 servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/v753/OT157Alkemy/1.0.0
   - url: "http://localhost:3000/"
 tags:
+- name: "Users"
+  description: "Users endpoints"
 - name: "Categories"
   description: "Get category names"
 - name: "News"
   description: "News endpoints"
 - name: "Activities"
-  description: "Activities endpoints"  
+  description: "Activities endpoints"
+
 components:
   schemas:
+    User:
+      type: object
+      required: ["firstname","lastname","password","email"]
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        firstname:
+          type: string
+          description: "User firstname"
+        lastname:
+          type: string
+          description: "User lastname"
+        email:
+          type: string
+          description: "User email"
+        image:
+          type: string
+          description: "User image"
+        password:
+          type: string
+          description: "User password"
+        roleId:
+          type: string
+          description: "User roleId (1 to admin)"  
+        created_at:
+          type: string
+          description: "User creation date"
+        updated_at:
+          type: string
+          description: "User update date"
+        deleted_at:
+          type: string
+          description: "User deletion date"
+    UserCreationBody:
+      type: object
+      required: ["firstname","lastname","password","email"]
+      properties:
+        firstname:
+          type: string
+          description: "User firstname"
+        lastname:
+          type: string
+          description: "User lastname"
+        email:
+          type: string
+          description: "User email"
+        image:
+          type: string
+          description: "User image"
+        password:
+          type: string
+          description: "User password"
+        roleId:
+          type: string
+          description: "User roleId (1 to admin)"
+    UserLoginBody:
+      type: object
+      required: ["password","email"]
+      properties:
+        email:
+          type: string
+          description: "User email"
+        password:
+          type: string
+          description: "User password"  
     Category:
       type: object
       required: ["name"]
@@ -109,6 +181,292 @@ security:
   - ApiKeyAuth: []
       
 paths:
+  /users:
+    get:
+      tags: 
+      - "Users"
+      summary: "Get all the users created"
+      description: "get all the user created in the database"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema: 
+               $ref: "#/components/schemas/User"
+              example:
+                users:
+                  - id: 20
+                    firstName: "Usuario estándar10"
+                    lastName: "Demo"
+                    email: "estandar10@test.com"
+                    image: "https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png"
+                    roleId: 2
+        '404':
+          description: Bad request - Not Found
+        '401':
+          description: Forbidden
+          content:
+            application/json:
+              schema: 
+                type: object
+              example:
+                msg: Mensaje de error
+                
+        default:
+          description: Unexpected error
+  /users/{userID}:  
+    delete:
+      tags:
+      - "Users"
+      summary: "Delete User"
+      description: "Delete user by ID"
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "User ID"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type:
+                  string
+                example:
+                  msg: "User deleted"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              schema:
+                type:
+                  string
+                example:
+                  msg: "Token no valido"
+        404:
+          description: "Not found"
+    patch:
+      tags:
+      - "Users"
+      summary: "Update User"
+      description: "Update user by ID"
+      parameters:
+      - name: "userID"
+        in: "path"
+        description: "User ID"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        description: "User object that needs to be updated"
+        content:
+          application/json:
+            schema:
+              type: object
+            example:
+              firstName: "Fran"
+              lastName: "Masell"
+              email: "franmassell4523@gmail.com"
+              image: 'sdadas'
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type:
+                  object
+                example:
+                  message: "User updated successfully"
+                  user:
+                    id: "UserID"
+                    firstName: "Updated firstname"
+                    lastName:  "Updated lastname"
+                    email:  "Updated EMAIL"
+                    image:  "Updated image URL"
+                    roleId:  "Updated roleId"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              schema:
+                type:
+                  string
+                example:
+                  msg: "Mensaje de error"
+        404:
+          description: "Not found"
+          content:
+            application/json:
+              schema:
+                type:
+                  string
+                example:
+                  message: "Mensaje de error"
+  /register:
+    post:
+      tags: 
+      - "Users"
+      summary: "Create a new User"
+      description: "Create a new user in the database"
+      requestBody:
+        description: "User object that needs to be created"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreationBody"
+            example:
+              firstName: "David"
+              lastName: "Vogel"
+              email: "exampleSwagger@gmail.com"
+              image: ''
+              password: '123456'
+              roleId: '1'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema: 
+               type: object
+              example:
+                msg: "Usuario Creado con exito!"
+                user:
+                  id: 24
+                  firstName: "Name"
+                  lastName: "Lastname"
+                  email: "Email registered"
+                  image: 'Url image'
+                  password: "Encripted Password"
+                  roleId: 'roleId (Admin = 1)'
+                  updatedAt: '2022-04-26T18:49:28.659Z'
+                  createdAt: '2022-04-26T18:49:28.659Z'
+                token: "Autentication Token"
+                
+        '404':
+          description: Bad request - Not Found
+          content:
+            application/json:
+              schema: 
+                type: object
+              example:
+                errors:
+                  - value: ''
+                    msg: "First name is required"
+                    param: "firstName"
+                    location: "body"
+                  - value: ''
+                    msg: "Password is required"
+                    param: "password"
+                    location: "body"
+                  - value: "Email" 
+                    msg: 'This email: EMAIL is already registered'
+                    param: "Email"
+                    location: "body"
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema: 
+                type: object
+              example:
+                msg: Mensaje de error
+        default:
+          description: Unexpected error
+  /auth/login:
+   post:
+      tags: 
+      - "Users"
+      summary: "Login User"
+      description: "Login a created user in the database"
+      requestBody:
+        description:  "User that needs to be loged"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLoginBody"
+            example:
+              email: "exampleSwagger@gmail.com"
+              password: '123456'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema: 
+               type: object
+              example:
+                user:
+                  id: "userId"
+                  firstName: "UserFirstname"
+                  lastName: "UserLastName"
+                  email: "userEmail"
+                  image: 'user URL'
+                  password: "User encripted password"
+                  roleId: "user rolId"
+                  deletedAt: "DATE"
+                  createdAt: "DATE"
+                  updatedAt: "DATE"
+                token: "Autentication Token"
+        '404':
+          description: Bad Request
+          content:
+            application/json:
+              schema: 
+                type: object
+              example:
+                msg: Mensaje de error
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema: 
+                type: object
+              example:
+                msg: Mensaje de error
+        default:
+          description: Unexpected error
+  /auth/me:
+   get:
+      tags: 
+      - "Users"
+      summary: "Logged User"
+      description: "User logged in the database"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema: 
+               type: object
+              example:
+                userAuth:
+                  id: "UserId"
+                  firstName: "User firstname"
+                  lastName: "User lastname"
+                  email: "User EMAIL"
+                  image: "User URL"
+                  password: "User encripted password"
+                  roleId: "User roleId"
+                  deletedAt: "DATE"
+                  createdAt: "DATE"
+                  updatedAt: "DATE"
+        '404':
+          description: Bad Request
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema: 
+                type: object
+              example:
+                msg: Mensaje de error
+        default:
+          description: Unexpected error  
   /categories:
     get:
       tags:

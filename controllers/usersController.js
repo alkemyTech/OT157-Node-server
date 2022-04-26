@@ -8,7 +8,7 @@ const getAllUser = async (req, res) => {
   const users = await db.User.findAll({
     attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
   });
-  res.status(400).json({users});
+  res.status(200).json({users});
 };
 
 const getUserById = async (req, res) => {
@@ -16,7 +16,7 @@ const getUserById = async (req, res) => {
   const user = await db.User.findByPk(id, {
     attributes: ["id", "firstName", "lastName", "email", "image", "roleId"],
   });
-  res.status(400).json({user});
+  res.status(200).json({user});
 };
 
 const deleteUserById = async (req, res) => {
